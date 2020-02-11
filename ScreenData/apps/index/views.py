@@ -1,58 +1,77 @@
 import json
+import redis
 from django import http
 from django.shortcuts import render
-
+import pandas as pd
 # Create your views here.
 from django.views import View
+from .models import DataAll
+
+
+red = redis.Redis(host='localhost', port=6379, db=1, decode_responses=True)
 
 
 class IndexView(View):
     def get(self, request):
-        return render(request, "index/index.html")
+        # 查询最新cycle的索引
+
+        return render(request, "index/index.html", {"confirmedCount": red.get("confirmed_all"), "curedCount": red.get("cured_all")})
 
 
 class ApiImpView(View):
     def post(self, request):
         data = json.loads(request.body.decode())
-        print(data)
         code = data["code"]
+
         if code == "importance":
             ret = {
-                'name': ["北京", "上海", "广州", "西安", "深圳", "宿迁", "杭州"],
-                'data': [1, 2, 3, 4, 5, 6, 7]
+                "name": red.lrange("serious_index", 0, red.llen("line_data_date")),
+                'data': red.lrange("serious_value", 0, red.llen("serious_value"))
             }
+
         elif code == "speed_add":
             ret = {
-                "name": ["武汉", "黄冈", "孝感", "随州", "襄阳", "荆州", "宣昌"],
-                'data': [80, 60, 55, 42, 33, 31, 29]
+                "name": red.lrange("add_nums_index", 0, red.llen("add_nums_index")),
+                'data': red.lrange("add_nums_value", 0, red.llen("add_nums_value"))
             }
+
         elif code == "all_type_add":
             ret = {
-                "name": ["确诊", "疑似", "死亡", "康复"],
-                'data': [3287, 5072, 65, 240]
+                "name": ["康复", "死亡"],
+                'data': red.lrange("bar_num", 0, red.llen("bar_num"))
             }
+
         elif code == "plot_two":
             ret = {
-                "name": ['01', '02', '03', '04', '05', '06', '07', '08', '09', '11', '12', '13', '14', '15', '16', '17',
-                       '18', '19', '20', '21', '22', '23', '24'],
-                'data': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
-                "data1": [2, 4, 6, 8, 10, 11, 12, 13, 14, 15, 19, 30, 13, 11, 19, 20, 22, 25, 26, 27, 28, 29, 30]
+                "name": red.lrange("line_data_date", 0, red.llen("line_data_date")),
+                'data': red.lrange("line_data_value1", 0, red.llen("line_data_value1")),
+                "data1": red.lrange("line_data_value2", 0, red.llen("line_data_value2"))
             }
+
         elif code == "par_cycle":
             ret = {
                 "data": [20388, 20455, 19000, 20000, 20000]
             }
-        elif code == "par_deed":
-            ret = {
-                "data": [300, 200]
-            }
+
         elif code == "pie_all_info":
             ret = {
-                "data": [50, 10, 60, 20]
+                "data": red.lrange("confirmed_num", 0, red.llen("confirmed_num"))
+
             }
-        elif code == "pie_cure":
+
+        elif code == "par_deed":
             ret = {
-                "data": [15000, 800]
+                "data": red.lrange("deed_num", 0, red.llen("deed_num"))
+            }
+
+        elif code == "pie_adds":
+            ret = {
+                "data": red.lrange("add_nums", 0, red.llen("add_nums"))
+            }
+        elif code == "code_map":
+            ret = {
+                "name": red.lrange("map_index", 0, red.llen("map_index")),
+                "value": red.lrange("map_value", 0, red.llen("map_value"))
             }
         else:
             ret = {}

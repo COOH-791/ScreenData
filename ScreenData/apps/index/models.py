@@ -13,7 +13,7 @@ class DataAll(models.Model):
     cycle = models.IntegerField(validators="循环次数")
 
     def __str__(self):
-        return self.id
+        return self.cityName
 
     class Meta:
         db_table = 'data_all'

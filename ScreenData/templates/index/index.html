@@ -81,14 +81,14 @@
                 <div class="bar">
                     <div class="barbox">
                         <ul class="clearfix">
-                            <li class="pulll_left counter">20000</li>
-                            <li class="pulll_left counter">25000</li>
+                            <li class="pulll_left counter">{{ confirmedCount }}</li>
+                            <li class="pulll_left counter">{{ curedCount }}</li>
                         </ul>
                     </div>
                     <div class="barbox2">
                         <ul class="clearfix">
                             <li class="pulll_left">全国总感染病例数</li>
-                            <li class="pulll_left">全国总疑似病例数</li>
+                            <li class="pulll_left">今日新增感染病例数</li>
                         </ul>
                     </div>
                 </div>
@@ -101,7 +101,7 @@
             </li>
             <li>
                 <div class="boxall" style="height:3.4rem">
-                    <div class="alltitle">全国疫情趋势图</div>
+                    <div class="alltitle">疫情增长趋势图</div>
                     <div class="allnav" id="echart4"></div>
                     <div class="boxfoot"></div>
                 </div>

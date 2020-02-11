@@ -37,7 +37,7 @@ function echarts_1() {
                 type: "solid"
             },
         },
-		
+
         axisTick: {
             show: false,
         },
@@ -156,7 +156,7 @@ function echarts_2() {
                 type: "solid"
             },
         },
-		
+
         axisTick: {
             show: false,
         },
@@ -200,7 +200,7 @@ function echarts_2() {
     }],
     series: [
 		{
-       
+
         type: 'bar',
         data: [1500, 1200, 600, 200, 300, 300, 900],
         barWidth:'35%', //柱子宽度
@@ -213,7 +213,7 @@ function echarts_2() {
             }
         }
     }
-		
+
 	]
 };
         // 使用刚指定的配置项和数据显示图表。
@@ -260,7 +260,7 @@ function echarts_5() {
             type: 'shadow'
         }
     },
-    
+
     grid: {
         left: '0%',
 		top:'10px',
@@ -279,7 +279,7 @@ function echarts_5() {
                 type: "solid"
             },
         },
-		
+
         axisTick: {
             show: false,
         },
@@ -381,7 +381,7 @@ function echarts_4() {
     },
 		    legend: {
     top:'0%',
-        data:['确诊','疑似'],
+        data:['确诊','治愈'],
                 textStyle: {
            color: 'rgba(255,255,255,.5)',
 			fontSize:'12',
@@ -405,7 +405,7 @@ axisLabel:  {
                 },
             },
         axisLine: {
-			lineStyle: { 
+			lineStyle: {
 				color: 'rgba(255,255,255,.2)'
 			}
 
@@ -420,7 +420,7 @@ axisLabel:  {
         position: 'bottom',
         offset: 20,
 
-       
+
 
     }],
 
@@ -454,7 +454,7 @@ axisLabel:  {
         symbolSize: 5,
         showSymbol: false,
         lineStyle: {
-			
+
             normal: {
 				color: '#0184d5',
                 width: 2
@@ -483,14 +483,14 @@ axisLabel:  {
 
     },
 {
-        name: '疑似',
+        name: '治愈',
         type: 'line',
         smooth: true,
         symbol: 'circle',
         symbolSize: 5,
         showSymbol: false,
         lineStyle: {
-			
+
             normal: {
 				color: '#00d887',
                 width: 2
@@ -523,7 +523,7 @@ axisLabel:  {
 };
 
         // 使用刚指定的配置项和数据显示图表。
-        loadDATA4(option)
+        loadDATA4(option);
         myChart.setOption(option);
         window.addEventListener("resize",function(){
             myChart.resize();
@@ -591,13 +591,13 @@ option = {
         itemHeight: 10,
 		itemGap: 12,
 		bottom: '3%',
-		
+
 		data: ['确诊', '疑似', '治愈', '重症', '死亡'],
 		textStyle: {
                     color: 'rgba(255,255,255,.6)',
                 }
 	},
-	
+
 	series: [
 		{
 		name: '确诊',
@@ -634,7 +634,7 @@ option = {
 			tooltip: {show: false},
 			itemStyle: placeHolderStyle
 		}]
-	}, 
+	},
 		{
 		name: '重症',
 		type: 'pie',
@@ -670,7 +670,7 @@ option = {
 			tooltip: {show: false},
 			itemStyle: placeHolderStyle
 		}]
-	}, 
+	},
 		{
 		name: '死亡',
 		type: 'pie',
@@ -721,7 +721,7 @@ function echarts_31() {
 option = {
 
 	    title: [{
-        text: '重症分布',
+        text: '确诊分布',
         left: 'center',
         textStyle: {
             color: '#fff',
@@ -737,11 +737,11 @@ position:function(p){   //其中p为当前鼠标的位置
         }
     },
     legend: {
-        
+
 top:'70%',
        itemWidth: 10,
         itemHeight: 10,
-        data:['湖北死亡','非湖北死亡'],
+        data:['湖北确诊','非湖北确诊'],
                 textStyle: {
             color: 'rgba(255,255,255,.5)',
 			fontSize:'12',
@@ -749,17 +749,17 @@ top:'70%',
     },
     series: [
         {
-        	name:'重症分布',
+        	name:'确诊分布',
             type:'pie',
 			center: ['50%', '42%'],
             radius: ['40%', '60%'],
-                  color: ['#065aab', '#066eab', '#0682ab', '#0696ab', '#06a0ab','#06b4ab','#06c8ab','#06dcab','#06f0ab'],	
+                  color: ['#065aab', '#066eab', '#0682ab', '#0696ab', '#06a0ab','#06b4ab','#06c8ab','#06dcab','#06f0ab'],
             label: {show:false},
 			labelLine: {show:false},
             data:[
 //            ['0-100','100-200','200-300','300以上']
-                {value:30, name:'湖北死亡'},
-                {value:20, name:'非湖北死亡'},
+                {value:30, name:'湖北确诊'},
+                {value:20, name:'非湖北确诊'},
 //                {value:70, name:'200-300'},
 //                {value:1, name:'300以'},
 //                {value:1, name:'50岁以上'},
@@ -769,90 +769,13 @@ top:'70%',
 };
 
         // 使用刚指定的配置项和数据显示图表。
-        loadDATA7(option)
+        loadDATA7(option);
         myChart.setOption(option);
         window.addEventListener("resize",function(){
         myChart.resize();
         });
     }
     function loadDATA7(option){
-        $.ajax({
-            type : "post",
-            async : false, //同步执行
-            url : "/api",
-            data : JSON.stringify({"code": "par_deed"}),
-            contentType: "application/json",
-            dataType : "json", //返回数据形式为json
-            success : function(result) {
-                if (result) {
-                    for(var i=0;i<result["data"].length;i++){
-                        option.series[0].data[i]["value"] = result["data"][i];
-                    }
-                }
-            }
-        });
-    }
-function echarts_32() {
-        // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('fb2'));
-option = {
-   
-	    title: [{
-        text: '疫情分布',
-        left: 'center',
-        textStyle: {
-            color: '#fff',
-			fontSize:'16'
-        }
-
-    }],
-    tooltip: {
-        trigger: 'item',
-        formatter: "{a} <br/>{b}: {c} ({d}%)",
-position:function(p){   //其中p为当前鼠标的位置
-            return [p[0] + 10, p[1] - 10];
-        }
-    },
-    legend: {
-        
-    top:'70%',
-       itemWidth: 10,
-        itemHeight: 10,
-        data:['确诊', "疑似", "死亡", "治愈"],
-                textStyle: {
-           color: 'rgba(255,255,255,.5)',
-			fontSize:'12',
-        }
-    },
-    series: [
-        {
-        	name:'疫情分布',
-            type:'pie',
-			center: ['50%', '42%'],
-            radius: ['40%', '60%'],
-            color: ['#065aab', '#066eab', '#0682ab', '#0696ab', '#06a0ab','#06b4ab','#06c8ab','#06dcab','#06f0ab'],	
-            label: {show:false},
-			labelLine: {show:false},
-            data:[
-                {value:5, name:'确诊'},
-                {value:1, name:'疑似'},
-                {value:6, name:'死亡'},
-                {value:2, name:'治愈'},
-//                {value:1, name:'学生'},
-//                {value:1, name:'其他'},
-            ]
-        }
-    ]
-};
-      
-        // 使用刚指定的配置项和数据显示图表。
-        loadDATA8(option)
-        myChart.setOption(option);
-        window.addEventListener("resize",function(){
-            myChart.resize();
-        });
-    }
-    function loadDATA8(option){
         $.ajax({
             type : "post",
             async : false, //同步执行
@@ -869,12 +792,91 @@ position:function(p){   //其中p为当前鼠标的位置
             }
         });
     }
+
+function echarts_32() {
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('fb2'));
+option = {
+
+	    title: [{
+        text: '重症分布',
+        left: 'center',
+        textStyle: {
+            color: '#fff',
+			fontSize:'16'
+        }
+
+    }],
+    tooltip: {
+        trigger: 'item',
+        formatter: "{a} <br/>{b}: {c} ({d}%)",
+position:function(p){   //其中p为当前鼠标的位置
+            return [p[0] + 10, p[1] - 10];
+        }
+    },
+    legend: {
+
+    top:'70%',
+       itemWidth: 10,
+        itemHeight: 10,
+        data:["湖北重症", "非湖北重症"],
+                textStyle: {
+           color: 'rgba(255,255,255,.5)',
+			fontSize:'12',
+        }
+    },
+    series: [
+        {
+        	name:'重症分布',
+            type:'pie',
+			center: ['50%', '42%'],
+            radius: ['40%', '60%'],
+            color: ['#065aab', '#066eab', '#0682ab', '#0696ab', '#06a0ab','#06b4ab','#06c8ab','#06dcab','#06f0ab'],
+            label: {show:false},
+			labelLine: {show:false},
+            data:[
+                {value:5, name:'湖北重症'},
+                {value:1, name:'非湖北重症'},
+                // {value:6, name:'死亡'},
+                // {value:2, name:'治愈'},
+//                {value:1, name:'学生'},
+//                {value:1, name:'其他'},
+            ]
+        }
+    ]
+};
+
+        // 使用刚指定的配置项和数据显示图表。
+        loadDATA8(option);
+        myChart.setOption(option);
+        window.addEventListener("resize",function(){
+            myChart.resize();
+        });
+    }
+    function loadDATA8(option){
+        $.ajax({
+            type : "post",
+            async : false, //同步执行
+            url : "/api",
+            data : JSON.stringify({"code": "par_deed"}),
+            contentType: "application/json",
+            dataType : "json", //返回数据形式为json
+            success : function(result) {
+                if (result) {
+                    for(var i=0;i<result["data"].length;i++){
+                        option.series[0].data[i]["value"] = result["data"][i];
+                    }
+                }
+            }
+        });
+    }
+
 function echarts_33() {
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('fb3'));
 option = {
 	    title: [{
-        text: '治愈分布',
+        text: '增长分布',
         left: 'center',
         textStyle: {
             color: '#fff',
@@ -893,7 +895,7 @@ position:function(p){   //其中p为当前鼠标的位置
     top:'70%',
        itemWidth: 10,
         itemHeight: 10,
-        data:['湖北治愈','非湖北治愈'],
+        data:['湖北增加','非湖北增加'],
                 textStyle: {
             color: 'rgba(255,255,255,.5)',
 			fontSize:'12',
@@ -901,21 +903,21 @@ position:function(p){   //其中p为当前鼠标的位置
     },
     series: [
         {
-        	name:'治愈分布',
+        	name:'增长分布',
             type:'pie',
 			center: ['50%', '42%'],
             radius: ['40%', '60%'],
-                   color: ['#065aab', '#066eab', '#0682ab', '#0696ab', '#06a0ab','#06b4ab','#06c8ab','#06dcab','#06f0ab'],	
+                   color: ['#065aab', '#066eab', '#0682ab', '#0696ab', '#06a0ab','#06b4ab','#06c8ab','#06dcab','#06f0ab'],
             label: {show:false},
 			labelLine: {show:false},
             data:[
-                {value:100, name:'湖北治愈'},
-                {value:170, name:'非湖北治愈'},
+                {value:100, name:'湖北增加'},
+                {value:170, name:'非湖北增加'},
             ]
         }
     ]
 };
-        loadDATA9(option)
+        loadDATA9(option);
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
         window.addEventListener("resize",function(){
@@ -927,7 +929,7 @@ position:function(p){   //其中p为当前鼠标的位置
             type : "post",
             async : false, //同步执行
             url : "/api",
-            data : JSON.stringify({"code": "pie_cure"}),
+            data : JSON.stringify({"code": "pie_adds"}),
             contentType: "application/json",
             dataType : "json", //返回数据形式为json
             success : function(result) {
@@ -942,11 +944,11 @@ position:function(p){   //其中p为当前鼠标的位置
 
 });
 
-		
-		
 
 
-		
+
+
+
 
 
 
