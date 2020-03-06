@@ -2,10 +2,8 @@ import json
 import redis
 from django import http
 from django.shortcuts import render
-import pandas as pd
 # Create your views here.
 from django.views import View
-from .models import DataAll
 
 
 red = redis.Redis(host='localhost', port=6379, db=1, decode_responses=True)
@@ -14,7 +12,6 @@ red = redis.Redis(host='localhost', port=6379, db=1, decode_responses=True)
 class IndexView(View):
     def get(self, request):
         # 查询最新cycle的索引
-
         return render(request, "index/index.html", {"confirmedCount": red.get("confirmed_all"), "curedCount": red.get("cured_all")})
 
 
